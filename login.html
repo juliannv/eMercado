@@ -42,9 +42,9 @@
     <div>
       <form class="signin">
         <label for="username">Nombre de usuario: </label><br>
-        <input type="text" name="username" id="username" required><br>
+        <input type="text" name="username" id="username" onchange="usercheck()"><br>
         <label for="password">Contraseña: </label><br>
-        <input type="password" name="password" id="password" required><br><br>
+        <input type="password" name="password" id="password" onchange="passcheck()"><br><br>
         <input type="submit" onclick="event.preventDefault();relocateAndLogin();">
       </form>
     </div>
