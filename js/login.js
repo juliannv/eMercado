@@ -19,6 +19,7 @@ function relocateAndLogin() {
         alert("Debe introducir usuario y contraseña");
     } else {
         sessionStorage.setItem("Logged", "true");
+        localStorage.setItem("User", user);
         window.location.replace("index.html");
     }    
 };
