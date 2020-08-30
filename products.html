@@ -23,7 +23,6 @@
       <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
       <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
       <a class="py-2 d-none d-md-inline-block" href="cart.html">Mi carrito</a>
-      <a class="py-2 d-none d-md-inline-block" href="my-profile.html" id="Usuario">Usuario: </a>
     </div>
   </nav>
   <main role="main" class="pb-5">
@@ -69,6 +68,10 @@
           </div>
         </div>
       </div>
+        <!-- Buscador (No está adentro de un div porque los estilos heredados me estaban dando alto dolor de cabeza -->
+        <label for="searchbox">Buscar: </label>
+        <input type="search" id="searchBox">
+        <!-- Fin buscador -->
       <div class="row">
         <div class="list-group" id="prod-list-container">
         </div>

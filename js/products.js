@@ -1,10 +1,11 @@
-const ORDER_ASC_BY_PRICE = "AZ";
-const ORDER_DESC_BY_PRICE = "ZA";
-const ORDER_BY_SOLD_COUNT = "Precio";
+const ORDER_ASC_BY_PRICE = "Precio Asc.";
+const ORDER_DESC_BY_PRICE = "Precio Desc.";
+const ORDER_BY_SOLD_COUNT = "Relevancia";
 var currentProductsArray = [];
 var currentSortCriteria = undefined;
 var minCount = undefined;
 var maxCount = undefined;
+var valorBuscador = "";
 
 function sortProducts(criteria, array) {
     let result = [];
@@ -39,10 +40,12 @@ function showProductList() {
     let htmlContentToAppend = "";
     for (let i = 0; i < currentProductsArray.length; i++) {
         let product = currentProductsArray[i];
+        let nombreMin = product.name.toLowerCase();
+        let descripcionMin = product.description.toLowerCase();
 
-
-        if (((minCount == undefined) || (minCount != undefined && parseInt(product.cost) >= minCount)) &&
-            ((maxCount == undefined) || (maxCount != undefined && parseInt(product.cost) <= maxCount))) {
+        if ((((minCount == undefined) || (minCount != undefined && parseInt(product.cost) >= minCount)) &&
+            ((maxCount == undefined) || (maxCount != undefined && parseInt(product.cost) <= maxCount))) && 
+            (valorBuscador == "" || (nombreMin.includes(valorBuscador.toLowerCase()) || descripcionMin.includes(valorBuscador.toLowerCase())))) {
 
             htmlContentToAppend += `
             <div class="row">
@@ -76,9 +79,6 @@ function sortAndShowProducts(sortCriteria, productsArray) {
     showProductList();
 }
 
-//Función que se ejecuta una vez que se haya lanzado el evento de
-//que el documento se encuentra cargado, es decir, se encuentran todos los
-//elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(PRODUCTS_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
@@ -125,6 +125,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
         else {
             maxCount = undefined;
         }
+
+        showProductList();
+    });
+
+    document.getElementById("searchBox").addEventListener("keyup", e => {
+        valorBuscador = document.getElementById("searchBox").value;
 
         showProductList();
     });

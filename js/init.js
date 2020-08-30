@@ -40,13 +40,21 @@ var getJSONData = function (url) {
     });
 }
 
-//Función que se ejecuta una vez que se haya lanzado el evento de
-//que el documento se encuentra cargado, es decir, se encuentran todos los
-//elementos HTML presentes.
+const NAV_BAR = document.querySelector('nav.site-header > div');
+
 document.addEventListener("DOMContentLoaded", function (e) {
-  document.getElementById("Usuario").innerHTML += localStorage.getItem("User");
-  console.log(localStorage.getItem("User"));
+  let usuario = localStorage.getItem("User");
+  function crearElementoUsuario(tuPerfil) {
+    let a = document.createElement('a');
+    a.setAttribute("class", "py-2 d-none d-md-inline-block")
+    a.setAttribute("href", "my-profile.html")
+    a.textContent = "Usuario: " + tuPerfil;
+    return a;
+  }
+
+  NAV_BAR.appendChild(crearElementoUsuario(usuario));
 });
+
 
 var Logged = sessionStorage.getItem("Logged")
 if (Logged !== "true") {
