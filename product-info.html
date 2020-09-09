@@ -45,7 +45,7 @@
         <dd>
           <p id="productCost"></p>
         </dd>
-        
+
         <dt>Cantidad de productos vendidos</dt>
         <dd>
           <p id="productSoldCount"></p>
@@ -57,11 +57,31 @@
           </div>
         </dd>
       </dl>
-      <hr class="my-3">
-      <h4>Comentarios</h4>
-      <div id="comment-list-container"> </div>
     </div>
   </main>
+  <hr class="my-3">
+  <div class="container">
+    <h2 class="text-center">Comentarios</h2>
+    <div id="comment-list-container"> </div>
+  </div>
+  <hr class="my-3">
+  <div class="container" id="cont-comment">
+    <h4>Agregar comentario: </h4>
+    <div class="block">
+      <textarea id="contenido" class="float-left"></textarea>
+      <ul class="float-right" id="puntaje">
+        <li class="estrella" id="estrella1" value="1"><i id="i1" class="fa fa-star"></i></li>
+        <li class="estrella" id="estrella2" value="2"><i id="i2" class="fa fa-star"></i></li>
+        <li class="estrella" id="estrella3" value="3"><i id="i3" class="fa fa-star"></i></li>
+        <li class="estrella" id="estrella4" value="4"><i id="i4" class="fa fa-star"></i></li>
+        <li class="estrella" id="estrella5" value="5"><i id="i5" class="fa fa-star"></i></li>
+      </ul>
+    </div>
+    <br>
+    <div class="block">
+      <input id="enviar" type="submit" class="float-right">
+    </div>
+  </div>
   <footer class="text-muted">
     <div class="container">
       <p class="float-right">
