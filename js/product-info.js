@@ -1,9 +1,12 @@
 var product = {};
+var relatedProduct = {} 
 var commentList = [];
 var puntaje;
 var clicked = false;
 var htmlContentToAppend = "";
 var puntuacionEstrellas = "";
+var fechaCompleta = "";
+
 
 function showImagesGallery(array) {
 
@@ -30,37 +33,14 @@ function showCommentList(array) {
         let comment = array[i];
         puntuacionEstrellas = "";
 
-        for (let j = 0; j < 5; j++) {
-            if (comment.score > j) {
-                puntuacionEstrellas += `
-                <i class="fa fa-star checked"></i>
-            `
-            } else {
-                puntuacionEstrellas += `
-                <i class="fa fa-star"></i>
-                `
-            }
-        }
-
         let mili = Date.parse(comment.dateTime);
+
+        //let prueba = new Date(mili).toLocaleString();
+
         let fechaObj = new Date();
         fechaObj.setTime(mili);
-
-        let año = fechaObj.getFullYear();
-        let mes = fechaObj.getMonth() + 1;
-        let dia = fechaObj.getDate();
-        let hora = ""
-        let mins = ""
-        if (fechaObj.getHours() < 10) {
-            hora = "0" + fechaObj.getHours();
-        } else {
-            hora = fechaObj.getHours();
-        }
-        if (fechaObj.getMinutes() < 10) {
-            mins = "0" + fechaObj.getMinutes();
-        } else {
-            mins = fechaObj.getMinutes();
-        }
+        crearFecha(fechaObj);
+        crearEstrellas(comment.score);
 
         htmlContentToAppend += `
         <div class="card">
@@ -68,8 +48,7 @@ function showCommentList(array) {
 	            <div class="row">
         	        <div class="col-md-2">
         	            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                        <p class="text-secondary text-center">` + dia + `/` + mes + `/` + año +
-            " " + hora + `:` + mins + `</p>
+                        <p class="text-secondary text-center">` + fechaCompleta + `</p>
         	        </div>
         	        <div class="col-md-10">
         	            <p>
@@ -106,6 +85,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
             productSoldCountHTML.innerHTML = product.soldCount;
 
             showImagesGallery(product.images);
+            
+            getJSONData(PRODUCTS_URL).then(function (resultObj, product.relatedProducts) {
+                
+            });
         }
     });
     getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (resultObj) {
@@ -114,11 +97,17 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
     });
 
-    document.getElementById("estrella1").addEventListener("mouseover", mostrarPuntaje);
-    document.getElementById("estrella2").addEventListener("mouseover", mostrarPuntaje);
+    let estrellas = document.getElementsByClassName("estrella");
+    for (let i = 0; i < estrellas.length; i++) {
+        estrellas[i].addEventListener("mouseover", mostrarPuntaje);
+        estrellas[i].addEventListener("mouseout", borrarPuntaje);
+        estrellas[i].addEventListener("click", function(){enviarPuntaje(e, estrellas[i].value)});
+    }
+
+    /* document.getElementById("estrella2").addEventListener("mouseover", mostrarPuntaje);
     document.getElementById("estrella3").addEventListener("mouseover", mostrarPuntaje);
     document.getElementById("estrella4").addEventListener("mouseover", mostrarPuntaje);
-    document.getElementById("estrella5").addEventListener("mouseover", mostrarPuntaje);
+    document.getElementById("estrella5").addEventListener("mouseover", mostrarPuntaje); */
 });
 
 function mostrarPuntaje() {
@@ -128,16 +117,17 @@ function mostrarPuntaje() {
             document.getElementById("i" + i).className += " checked";
         }
     }
-    this.addEventListener("mouseout", borrarPuntaje);
+}
 
-    this.addEventListener("click", e => {
-        if (clicked == true) {
-            clicked = false
-        } else {
-            clicked = true
-        }
-        puntaje = this.value;
-    });
+function enviarPuntaje(e, valor) {
+    console.log(this);
+    e.stopImmediatePropagation();
+    if (clicked == true) {
+        clicked = false
+    } else {
+        clicked = true
+    }
+    puntaje = valor;
 }
 
 function borrarPuntaje() {
@@ -148,38 +138,49 @@ function borrarPuntaje() {
     }
 }
 
+function crearFecha(fecha) {
+
+    let año = fecha.getFullYear();
+    let mes = fecha.getMonth() + 1;
+    let dia = fecha.getDate();
+    let hora = ""
+    let mins = ""
+
+    if (fecha.getHours() < 10) {
+        hora = "0" + fecha.getHours();
+    } else {
+        hora = fecha.getHours();
+    }
+    if (fecha.getMinutes() < 10) {
+        mins = "0" + fecha.getMinutes();
+    } else {
+        mins = fecha.getMinutes();
+    }
+
+    fechaCompleta = dia + "/" + mes + "/" + año + " " + hora + ":" + mins
+}
+
+function crearEstrellas(num) {
+    puntuacionEstrellas = "";
+    for (let i = 0; i < 5; i++) {
+        if (num > i) {
+            puntuacionEstrellas += `
+        <i class="fa fa-star checked"></i>
+    `
+        } else {
+            puntuacionEstrellas += `
+        <i class="fa fa-star"></i>
+        `
+        }
+    }
+}
+
 document.getElementById("enviar").addEventListener("click", e => {
     e.preventDefault();
     hoy = new Date();
-    puntuacionEstrellas = "";
     
-    for (let i = 0; i < 5; i++) {
-        if (puntaje > i) {
-            puntuacionEstrellas += `
-            <i class="fa fa-star checked"></i>
-        `
-        } else {
-            puntuacionEstrellas += `
-            <i class="fa fa-star"></i>
-            `
-        }
-    }
-
-    let año = hoy.getFullYear();
-    let mes = hoy.getMonth() + 1;
-    let dia = hoy.getDate();
-    let hora = ""
-    let mins = ""
-    if (hoy.getHours() < 10) {
-        hora = "0" + fechaObj.getHours();
-    } else {
-        hora = hoy.getHours();
-    }
-    if (hoy.getMinutes() < 10) {
-        mins = "0" + fechaObj.getMinutes();
-    } else {
-        mins = hoy.getMinutes();
-    }
+    crearFecha(hoy);
+    crearEstrellas(puntaje);
 
     htmlContentToAppend += `
         <div class="card">
@@ -187,8 +188,7 @@ document.getElementById("enviar").addEventListener("click", e => {
 	            <div class="row">
         	        <div class="col-md-2">
         	            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                        <p class="text-secondary text-center">` + dia + `/` + mes + `/` + año +
-                        " " + hora + `:` + mins + `</p>
+                        <p class="text-secondary text-center">` + fechaCompleta + `</p>
         	        </div>
         	        <div class="col-md-10">
         	            <p>

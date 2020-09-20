@@ -150,10 +150,12 @@ ul > li {
   display: inline;
 }
 
-#cont-comment {
+.block {
+  display: block;
+  padding-top: 25px;
   padding-bottom: 25px;
 }
 
-.block {
-  display: block;
+.block > textarea {
+  resize: none;
 }

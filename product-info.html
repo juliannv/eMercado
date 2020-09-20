@@ -56,6 +56,14 @@
           <div class="row text-center text-lg-left pt-2" id="productImagesGallery">
           </div>
         </dd>
+        
+        <dt>Productos relacionados: </dt>
+        <dd>
+          <div class="row text-center text-lg-left pt-2">
+            <label for="relatedProductImage" id="relatedProductName"></label>
+            <img id="relatedProductImage">
+          </div>
+        </dd>
       </dl>
     </div>
   </main>
@@ -64,11 +72,10 @@
     <h2 class="text-center">Comentarios</h2>
     <div id="comment-list-container"> </div>
   </div>
-  <hr class="my-3">
-  <div class="container" id="cont-comment">
+  <div class="container block" id="cont-comment">
     <h4>Agregar comentario: </h4>
     <div class="block">
-      <textarea id="contenido" class="float-left"></textarea>
+      <textarea id="contenido" class="float-left form-control col-9" rows="4"></textarea>
       <ul class="float-right" id="puntaje">
         <li class="estrella" id="estrella1" value="1"><i id="i1" class="fa fa-star"></i></li>
         <li class="estrella" id="estrella2" value="2"><i id="i2" class="fa fa-star"></i></li>
@@ -79,9 +86,10 @@
     </div>
     <br>
     <div class="block">
-      <input id="enviar" type="submit" class="float-right">
+      <input id="enviar" type="submit" class="float-right btn btn-primary">
     </div>
   </div>
+  <hr class="my-3">
   <footer class="text-muted">
     <div class="container">
       <p class="float-right">
