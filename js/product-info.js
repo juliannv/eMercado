@@ -1,5 +1,5 @@
 var product = {};
-var relatedProduct = {} 
+var relatedProduct = {}
 var commentList = [];
 var puntaje;
 var clicked = false;
@@ -85,11 +85,29 @@ document.addEventListener("DOMContentLoaded", function (e) {
             productSoldCountHTML.innerHTML = product.soldCount;
 
             showImagesGallery(product.images);
-            
-            getJSONData(PRODUCTS_URL).then(function (resultObj, product.relatedProducts) {
-                
-            });
+
+            return product.relatedProducts;
         }
+    }).then(function(array){
+        let productosRelacionados = array;
+        getJSONData(PRODUCTS_URL).then(function (resultObj) {
+            if (resultObj.status === "ok") {
+                relatedProduct = resultObj.data;
+                for (let i = 0; i < relatedProduct.length; i++) {
+                    if (i == productosRelacionados[0] || i == productosRelacionados[1]) {
+                        document.getElementById("relatedProductsCont").innerHTML += `
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <div class="d-block mb-4 h-100">
+                            <label for="relatedProductImage" id="relatedProductName"><strong> `
+                            + relatedProduct[i].name + ` </strong> - ` + relatedProduct[i].cost + ` ` + relatedProduct[i].currency + `</label>
+                            <img id="relatedProductImage" class="img-fluid img-thumbnail" src="` + relatedProduct[i].imgSrc + `" alt="">
+                        </div>
+                    </div> 
+                   `
+                    }
+                }
+            }
+        });
     });
     getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
@@ -101,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     for (let i = 0; i < estrellas.length; i++) {
         estrellas[i].addEventListener("mouseover", mostrarPuntaje);
         estrellas[i].addEventListener("mouseout", borrarPuntaje);
-        estrellas[i].addEventListener("click", function(){enviarPuntaje(e, estrellas[i].value)});
+        estrellas[i].addEventListener("click", function () { enviarPuntaje(e, estrellas[i].value) });
     }
 
     /* document.getElementById("estrella2").addEventListener("mouseover", mostrarPuntaje);
@@ -178,7 +196,7 @@ function crearEstrellas(num) {
 document.getElementById("enviar").addEventListener("click", e => {
     e.preventDefault();
     hoy = new Date();
-    
+
     crearFecha(hoy);
     crearEstrellas(puntaje);
 

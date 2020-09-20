@@ -44,15 +44,25 @@ const NAV_BAR = document.querySelector('nav.site-header > div');
 
 document.addEventListener("DOMContentLoaded", function (e) {
   let usuario = localStorage.getItem("User");
-  function crearElementoUsuario(tuPerfil) {
-    let a = document.createElement('a');
-    a.setAttribute("class", "py-2 d-none d-md-inline-block")
-    a.setAttribute("href", "my-profile.html")
-    a.textContent = "Usuario: " + tuPerfil;
-    return a;
-  }
+  NAV_BAR.innerHTML += `
+    <div class="dropdown">
+      <a class="py-2 d-none d-md-inline-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Usuario: ` + usuario + `
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="cart.html">Ver mi carrito</a>
+        <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" id="cerrarSesion">Cerrar sesión</button>
+      </div>
+    </div>
+`;
 
-  NAV_BAR.appendChild(crearElementoUsuario(usuario));
+document.getElementById("cerrarSesion").addEventListener("click", function(){
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.replace("login.html")
+})
 });
 
 
