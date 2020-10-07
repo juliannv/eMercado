@@ -159,3 +159,7 @@ ul > li {
 .block > textarea {
   resize: none;
 }
+
+.dropdown {
+  color: #fff
+}
